@@ -70,14 +70,13 @@ def guess(s):
             print("You didn't guess the word correctly, however all the letters in your word were correct just not in the\n right order, so we'll count it.")
         return ' '.join(s_arr_new)
 
-# TODO: Get file with many 5 letter words
 # Below: Read 5 letter words from file, pick a word for the user to guess
 # Below: Note: There are 5757 5 letter words in file_letter_words.txt. To get a random word first we pick a random number
 # between 1 and 5757
 random_word_line = random.randint(1, 5757)
 # Then we read the file and stop at random_word_line and store that word
 line_counter_start = 1
-word_to_solve = 'buzzy'
+word_to_solve = 'buzzy' # incase it fails to get the word
 with open('/Users/jeffersonvivanco/Documents/Algorithms/python/guessingWordProblem/five_letter_words.txt', 'rt') as f:
     for line in f:
         if random_word_line == line_counter_start:
