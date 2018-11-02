@@ -1,4 +1,5 @@
 # Algorithms 
+Notes from the book Grokking Algorithms by Aditya Y. Bhargava.
 
 These are intro notes to algorithms. I feel like my algorithm notes are all over the place, in paper, my computer, in the back of my head, so I'm putting it all here for reference. 
 
@@ -209,6 +210,45 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
 * We'll use a hash table to map a node to all of its neighbors
 * If a graph has nodes only pointing to them but no arrows from them to someone else then this is called a *directed graph*--the relationship is only one way.
 * An undirected graph has no arrows and both nodes are each other neighbors.
-    
 
+### Implementing the algorithm
+* First, we make a queue and add all the nighbors of the start vertex
+* Then, while the search queue is not empty, enqeue a neighbor vertex from the search queue and check if this is the vertex we are looking for, if it is great, if not, add all of this vertex's neighbors to the search queue
+* The algorithm will keep going until thew queue is empty
+* Note: You also have to keep a list of the vertices you have already checked. This is to avoid checking a vertex more than once or going into an infinite loop.
+* Loop at the sample breadth-first_search program at jeffersonvivanco.com in the projects section
+
+### Running Time
+* If you search your whole graph, that means you'll follow each edge, so the running time is at least O(number of edges)
+* You'll also keep a queue of every vertex you'll search, and adding a vertex to the queue take O(1), doing this for every vertex will take O(number of vertices).
+* BFS takes O(V + E)
+    
+## Dijkstra's Algorithm
+### There are four steps to dijkstra's algorithm
+1. Find the "cheapest" node. This is the node you can get to in the least amount of time.
+2. Check whether there's a cheaper path to the neighbors of this node. If so, update their costs.
+    1. The cost of a node is how long it takes to get to that node from the start.
+3. Repeat until you've done this for every node in the graph.
+4. Calculate the final path.
+
+### Terminology
+* Each edge in the graph has a number associated with it. These are called *weights*.
+* A graph with weights is called a *weighted graph*.
+* A graph without weights is called an *unweighted graph*.
+* **To calculate the shortest path in an unweighted graph, use breadth-first search. To calculate the shortest path in a weighted graph, use dijkstra's algorithm.**
+* Graphs can also have *cycles*. It means you can start at a node, travel around, and end up at the same node.
+* An undirected graph means that both nodes point to each other. That's a cycle!
+* With an undirected graph, each edge adds another cycle. Dijkstra's algorithm only works with directed acyclic graphs, called DAGs for short.
+
+### Negative Weight Edges
+* **you can't use Dijkstra's algorithm if you have negative weight edges.** Negative weight edges break the algorithm.
+* if you want to find the shortest path in a graph that has negative-weight edges, use Bellman-Ford algorithm.
+
+### Implementation
+* Algorithm
+    * while we have nodes to process
+    * grab the node that is closest to the start
+    * update costs for its neighbors
+    * if any of the neighbor's costs were updated, update the parents too
+    * mark this node processed
 

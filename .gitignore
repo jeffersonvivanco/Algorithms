@@ -105,3 +105,6 @@ venv.bak/
 
 .DS_Store
 python/.DS_Store
+
+lottery_random.py
+.idea/
