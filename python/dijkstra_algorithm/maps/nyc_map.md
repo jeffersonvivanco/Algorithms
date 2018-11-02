@@ -5,11 +5,13 @@
 ## Project
 * Implemented a map covering only some parts of NYC using a graph.
 * Using Dijkstra's algorithm, the program finds the fastest route to the destination.
-* The fastest route is determined based on traffic, distance, and speed limit.
-* The map assumes you are driving everywhere.
-* Visual Map provided, look at nyc_map.jpg
-* To run the program, run nyc_dijkstra.py
-* Note: No UI provided, information about traffic, speed limit, and distance is displayed in the console.
+* The fastest route is determined based on traffic and distance.
+* The map only works uptown to downtown as shown by the arrows in the graph.
+* To run the program, run nyc_map.py
+* The project also comes with a test file -> nyc_map_test.py
+* The program prints out notifications informing you how the traffic is
+between places. Note: The time between places is in seconds because this map
+is used in the future by flying cars who take seconds to get to places.
 
 ## Places
 1. One World Trade Center
@@ -22,5 +24,6 @@
 8. East River
 
 ## Graph
-* Weight of edges is determined based on distance and traffic.
+* Weight of edges is determined based on distance and traffic. (Generated random at runtime)
+* Nodes are the places
 
