@@ -47,8 +47,8 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
     * Unlike insertions, deletions will always work. Insertions can fail sometimes when there's no space left in memory. But you can always delete an element.
 * Run times for common operations on arrays and linked lists
 
-    |           |  Arrays | Lists |
-    | -:        |-:       | -:    |
+    |  Method   |  Arrays | Lists |
+    |   ---     |   ---   |  ---  |
     | Reading   | O(1)    | O(n)  |
     | Insertion | O(n)    | O(1)  |
     | Deletion  | O(n)    | O(1)  |
@@ -62,8 +62,8 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
 ## Recursion
 * Recursion is when a function calls itself.
 * Recursion is used when it makes the solution clearer. 
-* **There is NO performance benefit to using recursion; in fact, loops are sometimes better for performance. 
-* When you write a recursive function, you have to tell it when to stop rrecursing. That's why every recursive function has two parts: *the base case, and the recursive case*.
+* **There is NO performance benefit to using recursion; in fact, loops are sometimes better for performance.** 
+* When you write a recursive function, you have to tell it when to stop recursing. That's why every recursive function has two parts: *the base case, and the recursive case*.
     * The recursive case is when the function calls itself.
     * The base case is when the function doesn't call itself again ... so it doesn't go into an infinite loop.
 * All function calls go onto the call stack.
@@ -106,7 +106,7 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
 * So, you might be thinking, isn't merge sort faster since it takes O(nlogn) all the time?
 * Well ... no, you see in big O notation, O(n) really means O(c * n)
     * c is some fixed amount of time that your algorithm takes.  Its called the *constant*.
-    * It could vs 10ms * n or even 1s * n.
+    * It could be 10ms * n or even 1s * n.
     * You usually ignore that constant, because if two algorithms have different big O times, the constant doesn't matter.
     * For example, let's say binary search and simple search had these constants: simple => 10ms * n, binary => 1sec * logn
     * You might say that simple search is much faster since it has a constant of 10ms. Now, lets suppose we search a list of 4 billion elements. Here are the times:
@@ -160,7 +160,7 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
 
 ### Performance
 |           |  Hash Tables (avg.) | Hash Tables (worst) | Arrays | Linked List |
-| -:        |-:                   | -:                  | -:     | -:          |
+| ----      |---                  | ---                 | ---    | ---         |
 | Search    | O(1)                | O(n)                | O(1)   | O(n)        |
 | Insert    | O(1)                | O(n)                | O(n)   | O(1)        |
 | Delete    | O(1)                | O(n)                | O(n)   | O(1)        |
@@ -212,9 +212,9 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
 * An undirected graph has no arrows and both nodes are each other neighbors.
 
 ### Implementing the algorithm
-* First, we make a queue and add all the nighbors of the start vertex
+* First, we make a queue and add all the neighbors of the start vertex
 * Then, while the search queue is not empty, enqeue a neighbor vertex from the search queue and check if this is the vertex we are looking for, if it is great, if not, add all of this vertex's neighbors to the search queue
-* The algorithm will keep going until thew queue is empty
+* The algorithm will keep going until the queue is empty
 * Note: You also have to keep a list of the vertices you have already checked. This is to avoid checking a vertex more than once or going into an infinite loop.
 * Loop at the sample breadth-first_search program at jeffersonvivanco.com in the projects section
 
@@ -252,3 +252,108 @@ These are intro notes to algorithms. I feel like my algorithm notes are all over
     * if any of the neighbor's costs were updated, update the parents too
     * mark this node processed
 
+## Greedy Algorithms
+A greedy algorithm is simple: at each step, pick the optimal move. At each step you pick the locally optimal solution, and
+in the end you are left with the globally optimal solution.
+### The set covering problem
+* Suppose you are starting a radio show. You want to reach listeners in all 50 states. You have to decide what stations to play
+on to reach all those listeners. It costs money to be on each station, so you are trying to minimize the number of stations you play
+on.
+* Each station covers a region, and there's overlap.
+
+| Radio Station | Available In|
+| ---           |   ---       |
+| KOne          | ID, NV, UT  |
+| KTwo          | WA, ID, MT  |
+| KThree        | OR, NV, CA  |
+| KFour         | NV, UT      |
+| KFive         | CA, AZ      |
+
+* How do you figure out the smallest set of stations you can play on to cover all 50 states?
+* Approximation Algorithm
+  1. Pick the station that covers the most states that haven't been covered yet. It's ok if the station covers some
+  states that have been covered already.
+  2. Repeat until all the states are covered.
+* This is called an *approximation algorithm*. When calculating the exact solution will take too much time, an approximation
+algorithm will work.
+* Approximation Algorithms are judged by:
+  * How fast they are
+  * How close they are to the optimal solution
+* Greedy algorithms are a good choice because not only are they simple to come up with, but this simplicity means they usually
+run fast too. In this case, the greedy algorithm runs in O(n^2) time, where n is the number of radio stations.
+* Comparing run time of the greedy algorithm to the exact algorithm
+
+| Number of stations | O(n!) Exact Algorithm | O(n^2) Greedy Algorithm |
+| ---                | ---                   | ---                     |
+| 5                  | 3.2 sec               | 2.5 sec                 |
+| 10                 | 102.4 sec             | 10 sec                  |
+| 32                 | 13.6 yrs              | 102.4 sec               |
+| 100                | 4x10^21 yrs           | 16.67 min               |
+
+### NP Complete Problems
+* The traveling-salesperson problem (factorial function) and the set-covering problem both have something in common: you
+calculate every possible solution and pick the smallest/shortest one. Both of these problems are NP-Complete.
+* NP-complete problems show up everywhere! It's nice to know if the problem you're trying to solve is NP-complete. At that
+point, you can stop trying to solve it perfectly and solve it using an approximation algorithm instead. But it's hard to tell
+if a problem you're working on is NP-complete. Usually there's a very small difference between a problem that's easy to solve
+and an NP-complete problem. Here are some giveaways:
+ * Your algorithm runs quickly with a handful of items but really slows down with more items.
+ * "All combination of X" usually point to an NP-complete problem.
+ * Do you have to calculate "every possible version" of X because you can't break it down into smaller sub-problems. Might
+ be NP-complete.
+ * If your problem involves a sequence (such as sequence of cities, like traveling salesperson), and it's hard to solve, it might
+ be NP-complete.
+ * If your problem involves a set (like a set of radio stations) and it's hard to solve, it might be NP-complete.
+ * Can you restate your problem as the set-covering problem or the traveling-salesperson problem? Then your problem is definitely
+ NP-complete.
+ 
+## Dynamic Programming
+Starts by solving subproblems and builds up to solving the big problem 
+
+### dynamic programming cell value formula
+![Alt dynamic programming cell value formula](assets/dynamic_programming_formula.svg "dynamic programming cell value formula")
+
+### Questions
+* Would the value of the column ever go down ?
+  * No. At every iteration, you're storing the current max estimate. The estimate can never get worse than it was before.
+* What happens if you change the order of the rows ?
+  * The answer doesn't change. The order of the rows doesn't matter.
+* Can you fill in the grid column-wise instead of row-wise ?
+  * For some problems it doesn't make a difference. It could make a difference for other problems.
+* What happens if you add a smaller item ?
+  * You have to account for finer granularity, so the grid has to change
+* Can you steal fractions of an item ?
+  * You can't. With the dp solution, you either take the item or not. There's no way for it to figure out that you should
+  take half an item.
+  * *But this case is easily solved using a greedy algorithm!* First, take as much as you can of the most valuable item.
+  When that runs out, take as much as you can of the next most valuable item, and so on.
+* Handling items that depend on each other?
+  * You can't. Dynamic programming is powerful because it can solve subproblems and use those answers to solve the big
+  problem. *DP only works when each sub problem is discrete--when it doesn't depend on other sub problems.*
+  
+### Longest Common Substring
+* DP is useful *when you are trying to optimize something given a constraint.* In the knapsack problem, you had to maximize
+the value of the goods you stole, constrained by the size of the knapsack.
+* You can use DP when the problem can be broken into discrete sub problems, and they don't depend on each other.
+* **Tips**
+  * Every dp solution involves a grid
+  * *The values in the cell are usually what you are trying to optimize.* For the knapsack problem, the values were the value
+  of the goods.
+  * Each cell is a sub problem, so think about how you can divide your problem into subproblems. That will help you figure
+  out what the axes are.
+* **Making the Grid**
+  * What does the grid for this problem look like? You need to answer these questions:
+    * What are the values of the cells?
+    * How do you divide this problem into subproblems?
+    * What are the axes of the grid?
+  * In DP you are trying to maximize something.
+* Is dynamic programming ever used?
+  * Biologists use the longest common subsequence to find similarities in DNA strands. They can use this to tell how similar
+  two animals or two diseases are. The longest common subsequence is being used to find a cure for multiple sclerosis.
+  * Have you ever used `git diff`? `git diff` tells you the differences between two files, and it uses dp to do so.
+  * We talked about string similarity. *Levenshtein distance* measures how similar two strings are, and it uses dp. Levenshtein
+  distance is used for everything from spell-check to figuring out whether a user is uploading copyrighted data.
+  * Have you ever used an app that does word wrap, like MS Word? How does it figure out where to wrap so that the line length
+  stays consistent? Dp.
+            
+ 
